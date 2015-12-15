@@ -3,7 +3,7 @@
 
 #include "Timer.h"
 
-Timer cpp11_timer;
+Timer<microseconds> cpp11_timer;
 
 int main()
 {
@@ -17,7 +17,7 @@ int main()
 	//#######################################################
 	//#			Put code to time before this point			#
 	//#######################################################
-	cpp11_timer.End();
+	cpp11_timer.End();		// Get end time
 	std::cout << "Time taken : " << cpp11_timer.Get_Duration() << std::endl;
 
 	return 0;

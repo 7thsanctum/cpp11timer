@@ -5,7 +5,7 @@
 using namespace std;
 using namespace chrono;
 
-// TODO: Allow specifying of precision, e.g. milliseconds vs nanoseconds, currently fixed with milliseconds
+template <class T>
 class Timer
 {
 public:
@@ -20,43 +20,49 @@ public:
 private:
 	bool stopped;
 
-	time_point<system_clock, system_clock::duration> start;				// Get start time;
-	time_point<system_clock, system_clock::duration> end;				// Get start time;
-	duration<system_clock::rep, system_clock::period> total();
+	time_point<system_clock, system_clock::duration> start;			// start time;
+	time_point<system_clock, system_clock::duration> end;			// end time;
+	duration<system_clock::rep, system_clock::period> total();		// Function for calculating the time difference between start and end
 };
 
-Timer::Timer()
+template <class T>
+Timer<T>::Timer()
 {
 	stopped = true;
 }
 
-Timer::~Timer(){}
+template <class T>
+Timer<T>::~Timer(){}
 
-void Timer::Start()
+template <class T>
+void Timer<T>::Start()
 {
-	start = system_clock::now();		// Get start time
+	start = system_clock::now();	// Set start time to current time
 	stopped = false;
 }
 
-void Timer::End()
+template <class T>
+void Timer<T>::End()
 {
-	end = system_clock::now();			// Get end time 		
+	end = system_clock::now();		// Set end time to current time		
 	stopped = true;
 }
 
-duration<system_clock::rep, system_clock::period> Timer::total()
+template <class T>
+duration<system_clock::rep, system_clock::period> Timer<T>::total()
 {
 	if (!stopped)
 	{
 		//TODO: Workout a good way to do this.
-		cout << "Timer wasn't stopped before trying to work out the total!" << endl;
+		cout << "Timer wasn't stopped before trying to work out the duration!" << endl;
 		return system_clock::now() - start;
 	}
 
 	return end - start;
 }
 
-long long Timer::Get_Duration()
+template <class T>
+long long Timer<T>::Get_Duration()
 {
-	return duration_cast<milliseconds>(total()).count();
+	return duration_cast<T>(total()).count();
 }
